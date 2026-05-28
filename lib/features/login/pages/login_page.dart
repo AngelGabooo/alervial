@@ -109,20 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                TextButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Recuperar contraseña - Próximamente')),
-                    );
-                  },
-                  child: Text(
-                    '¿Olvidaste tu contraseña?',
-                    style: TextStyle(
-                      color: AppColors.softGreen,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+                // ✅ Este botón ahora es redundante porque ya está dentro del formulario
+                // Pero lo dejamos por si acaso
                 const SizedBox(height: 24),
                 const SocialLogin(),
                 const SizedBox(height: 24),

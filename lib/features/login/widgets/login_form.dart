@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/colors.dart';
+import 'package:viatux/core/constants/colors.dart';
+import 'package:viatux/routes/app_routes.dart'; // 👈 Agregar este import
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -76,7 +76,8 @@ class _LoginFormState extends State<LoginForm> {
               ),
               TextButton(
                 onPressed: () {
-                  // Recuperar contraseña
+                  // ✅ CORREGIDO: Navegar a Forgot Password
+                  Navigator.pushNamed(context, AppRoutes.forgotPassword);
                 },
                 child: Text(
                   '¿Olvidaste tu contraseña?',
@@ -207,11 +208,17 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
+      // Simular inicio de sesión exitoso
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Inicio de sesión exitoso')),
+        const SnackBar(
+          content: Text('Inicio de sesión exitoso'),
+          backgroundColor: AppColors.softGreen,
+          behavior: SnackBarBehavior.floating,
+        ),
       );
-      // Navegar a Home
-      // Navigator.pushReplacementNamed(context, AppRoutes.home);
+
+      // ✅ CORREGIDO: Navegar a Home después del login
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
     }
   }
 }

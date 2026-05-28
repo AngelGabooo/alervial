@@ -20,6 +20,12 @@ import '../features/recent_activity_feed/pages/recent_activity_feed_page.dart';
 import '../features/notifications/pages/notifications_page.dart';
 import '../features/smart_alerts/pages/smart_alerts_page.dart';
 
+// 👉 NUEVOS IMPORTS DE LAS PÁGINAS CREADAS (Vistas 21, 22, 23 y 24)
+import '../features/personal_stats/pages/personal_stats_page.dart';
+import '../features/gamification/pages/gamification_page.dart';
+import '../features/favorites/pages/favorites_page.dart';
+import '../features/intelligent_search/pages/intelligent_search_page.dart';
+
 class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
@@ -41,6 +47,12 @@ class AppRoutes {
   static const String recentActivityFeed = '/recent-activity-feed';
   static const String notifications = '/notifications';
   static const String smartAlerts = '/smart-alerts';
+
+  // 👉 CONSTANTES NUEVAS PARA LA NAVEGACIÓN NOMBRADA
+  static const String personalStats = '/personal-stats';
+  static const String gamification = '/gamification';
+  static const String favorites = '/favorites';
+  static const String intelligentSearch = '/intelligent-search';
 
   static Map<String, WidgetBuilder> get routes {
     return {
@@ -64,6 +76,12 @@ class AppRoutes {
       recentActivityFeed: (context) => const RecentActivityFeedPage(),
       notifications: (context) => const NotificationsPage(),
       smartAlerts: (context) => const SmartAlertsPage(),
+
+      // 👉 REGISTRO OFICIAL DE LAS NUEVAS VISTAS
+      personalStats: (context) => const PersonalStatsPage(),
+      gamification: (context) => const GamificationPage(),
+      favorites: (context) => const FavoritesPage(),
+      intelligentSearch: (context) => const IntelligentSearchPage(),
     };
   }
 }

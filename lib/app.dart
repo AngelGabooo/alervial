@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system, // Detecta automáticamente el tema del sistema
+      themeMode: ThemeMode.system,
       initialRoute: AppRoutes.splash,
       routes: AppRoutes.routes,
     );

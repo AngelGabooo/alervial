@@ -4,15 +4,8 @@ import 'package:viatux/core/services/screenshot_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  ScreenshotService.register(); // 👈 Registrar el servicio
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  ScreenshotService.register();
 
-  @override
-  Widget build(BuildContext context) {
-    return const App();
-  }
+  runApp(const App());
 }

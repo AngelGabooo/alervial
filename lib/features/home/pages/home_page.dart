@@ -19,6 +19,12 @@ import 'package:viatux/features/recent_activity_feed/pages/recent_activity_feed_
 import 'package:viatux/features/notifications/pages/notifications_page.dart';
 import 'package:viatux/features/smart_alerts/pages/smart_alerts_page.dart';
 
+// 👉 IMPORTS CONECTADOS DIRECTAMENTE AL HOME
+import 'package:viatux/features/personal_stats/pages/personal_stats_page.dart';
+import 'package:viatux/features/gamification/pages/gamification_page.dart';
+import 'package:viatux/features/favorites/pages/favorites_page.dart';
+import 'package:viatux/features/intelligent_search/pages/intelligent_search_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -41,23 +47,20 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = index;
     });
 
-    // Navegación según el índice seleccionado
     switch (index) {
-      case 0: // Inicio (ya estamos aquí)
+      case 0: // Inicio
         break;
-      case 1: // Mapa
-        Navigator.push(
+      case 1: // Mapa 👉 AHORA REDIRIGE A TU BÚSQUEDA INTELIGENTE CON MAPA EN VIVO
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => const InteractiveMapPage(),
-          ),
+          AppRoutes.intelligentSearch,
         ).then((_) {
           setState(() {
             _currentIndex = 0;
           });
         });
         break;
-      case 2: // Reportar - Navegar a Crear Reporte
+      case 2: // Reportar
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -69,23 +72,21 @@ class _HomePageState extends State<HomePage> {
           });
         });
         break;
-      case 3: // Notificaciones - Navegar a Notificaciones
-        Navigator.push(
+      case 3: // Alertas 👉 AHORA REDIRIGE A TU PANTALLA PREMIUM DE FAVORITOS
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => const NotificationsPage(),
-          ),
+          AppRoutes.favorites,
         ).then((_) {
           setState(() {
             _currentIndex = 0;
           });
         });
         break;
-      case 4: // Perfil - Navegar a Mis Reportes
+      case 4: // Perfil 👉 CONECTADO A TUS ESTADÍSTICAS PERSONALES PREMIUM
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MyReportsPage(),
+            builder: (context) => const PersonalStatsPage(),
           ),
         ).then((_) {
           setState(() {
@@ -94,6 +95,26 @@ class _HomePageState extends State<HomePage> {
         });
         break;
     }
+  }
+
+  // 👉 ACCIÓN REDIRIGIDA A ESTADÍSTICAS AL TOCAR LA TARJETA PRINCIPAL
+  void _navigateToPersonalStats() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PersonalStatsPage(),
+      ),
+    );
+  }
+
+  // 👉 FUNCIÓN PARA IR A LA PANTALLA DE GAMIFICACIÓN (LOGROS/DESAFÍOS)
+  void _navigateToGamification() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GamificationPage(),
+      ),
+    );
   }
 
   void _navigateToRiskZones() {
@@ -175,17 +196,19 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              // Header
+              // Header - Al tocar tu foto de avatar abre la Gamificación/Logros
               HomeHeader(
                 userName: 'Ángel',
                 onNotificationTap: _navigateToNotifications,
-                onProfileTap: _navigateToMyReports,
+                onProfileTap: _navigateToGamification,
               ),
-              // Stats Card
+
+              // Stats Card - Al tocarla abre tus Estadísticas Personales Premium
               GestureDetector(
-                onTap: _navigateToRiskZones,
+                onTap: _navigateToPersonalStats,
                 child: const StatsCard(),
               ),
+
               // Nearby Incidents
               NearbyIncidents(
                 onViewAll: () {
@@ -198,6 +221,7 @@ class _HomePageState extends State<HomePage> {
                   _navigateToCommentsEvidences();
                 },
               ),
+
               // Mini Map
               MiniMap(
                 onViewMap: () {
@@ -207,7 +231,8 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              // Recent Activity - Con navegación a Historial y Actividad Reciente
+
+              // Recent Activity
               RecentActivity(
                 onViewAll: _navigateToHistory,
                 onActivityTap: _navigateToRecentActivity,

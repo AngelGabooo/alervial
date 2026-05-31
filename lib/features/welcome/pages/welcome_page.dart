@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/utils/responsive.dart';
+import 'package:viatux/core/constants/colors.dart';
+import 'package:viatux/core/utils/responsive.dart';
+import 'package:viatux/features/loading_screen/pages/loading_screen_page.dart';
 import '../widgets/action_buttons.dart';
 import '../widgets/welcome_header.dart';
 import '../widgets/welcome_illustration.dart';
@@ -8,6 +9,26 @@ import '../../../routes/app_routes.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  void _navigateWithLoading(BuildContext context, String route) {
+    // Mostrar pantalla de carga
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoadingScreenPage(
+          initialMessage: 'Redirigiendo...',
+          onLoadingComplete: null,
+        ),
+      ),
+    );
+
+    // Simular carga
+    Future.delayed(const Duration(seconds: 1), () {
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, route);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +45,12 @@ class WelcomePage extends StatelessWidget {
               const WelcomeHeader(),
               const WelcomeIllustration(),
               resp.sizedBox(height: 20),
-              // ✅ CORREGIDO: Pasar los 3 callbacks requeridos
               ActionButtons(
                 onLogin: () {
-                  Navigator.pushNamed(context, AppRoutes.login);
+                  _navigateWithLoading(context, AppRoutes.login);
                 },
                 onRegister: () {
-                  Navigator.pushNamed(context, AppRoutes.register);
+                  _navigateWithLoading(context, AppRoutes.register);
                 },
                 onVisitor: () {
                   ScaffoldMessenger.of(context).showSnackBar(

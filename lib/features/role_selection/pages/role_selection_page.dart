@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
-import '../../../core/widgets/gradient_background.dart';
+import 'package:viatux/core/constants/colors.dart';
+import 'package:viatux/core/widgets/gradient_background.dart';
+import 'package:viatux/features/loading_screen/pages/loading_screen_page.dart';
 import '../widgets/role_card.dart';
 import '../widgets/role_header.dart';
 
@@ -50,6 +51,27 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
     ),
   ];
 
+  void _navigateToWelcomeWithLoading() async {
+    // Mostrar pantalla de carga
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoadingScreenPage(
+          initialMessage: 'Preparando tu experiencia...',
+          onLoadingComplete: null,
+        ),
+      ),
+    );
+
+    // Simular carga de datos
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Navegar a Welcome
+    if (context.mounted) {
+      Navigator.pushReplacementNamed(context, '/welcome');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -85,9 +107,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/welcome');
-                    },
+                    onPressed: _navigateToWelcomeWithLoading,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.blueBright,
                       foregroundColor: Colors.white,

@@ -48,11 +48,7 @@ class RiskHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back_rounded,
-                        color: isDark ? Colors.white : AppColors.blueDark),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+
                   const Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(

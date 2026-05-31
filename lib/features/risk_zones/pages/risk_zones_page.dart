@@ -24,6 +24,24 @@ class _RiskZonesPageState extends State<RiskZonesPage> {
 
     return Scaffold(
       backgroundColor: isDark ? Colors.black : Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded,
+              color: isDark ? Colors.white : AppColors.blueDark),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          'Zonas de Riesgo',
+          style: TextStyle(
+            fontSize: resp.sp(18),
+            fontWeight: FontWeight.bold,
+            color: isDark ? Colors.white : AppColors.blueDark,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           RiskHeader(

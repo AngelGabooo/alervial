@@ -19,6 +19,9 @@ import '../features/history/pages/history_page.dart';
 import '../features/recent_activity_feed/pages/recent_activity_feed_page.dart';
 import '../features/notifications/pages/notifications_page.dart';
 import '../features/smart_alerts/pages/smart_alerts_page.dart';
+import '../features/profile/pages/profile_page.dart';
+import '../features/loading_screen/pages/loading_screen_page.dart';
+import '../features/no_connection/pages/no_connection_page.dart';
 
 // 👉 NUEVOS IMPORTS DE LAS PÁGINAS CREADAS (Vistas 21, 22, 23 y 24)
 import '../features/personal_stats/pages/personal_stats_page.dart';
@@ -47,6 +50,9 @@ class AppRoutes {
   static const String recentActivityFeed = '/recent-activity-feed';
   static const String notifications = '/notifications';
   static const String smartAlerts = '/smart-alerts';
+  static const String profile = '/profile';
+  static const String loadingScreen = '/loading-screen';
+  static const String noConnection = '/no-connection';
 
   // 👉 CONSTANTES NUEVAS PARA LA NAVEGACIÓN NOMBRADA
   static const String personalStats = '/personal-stats';
@@ -76,6 +82,9 @@ class AppRoutes {
       recentActivityFeed: (context) => const RecentActivityFeedPage(),
       notifications: (context) => const NotificationsPage(),
       smartAlerts: (context) => const SmartAlertsPage(),
+      profile: (context) => const ProfilePage(),
+      loadingScreen: (context) => const LoadingScreenPage(),
+      noConnection: (context) => const NoConnectionPage(),
 
       // 👉 REGISTRO OFICIAL DE LAS NUEVAS VISTAS
       personalStats: (context) => const PersonalStatsPage(),

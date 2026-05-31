@@ -3,9 +3,14 @@ import 'package:viatux/core/constants/colors.dart';
 import 'package:viatux/core/utils/responsive.dart';
 
 class BottomSheetDetail extends StatelessWidget {
+  final Map<String, dynamic> marker;
   final VoidCallback onClose;
 
-  const BottomSheetDetail({super.key, required this.onClose});
+  const BottomSheetDetail({
+    super.key,
+    required this.marker,
+    required this.onClose,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +60,10 @@ class BottomSheetDetail extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(resp.wp(3)),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.1),
+                              color: (marker['color'] as Color).withOpacity(0.1),
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(Icons.warning_rounded, color: Colors.orange, size: resp.iconSize(28)),
+                            child: Icon(marker['icon'], color: marker['color'], size: resp.iconSize(28)),
                           ),
                           SizedBox(width: resp.wp(4)),
                           Expanded(
@@ -66,13 +71,13 @@ class BottomSheetDetail extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Bache profundo',
+                                  marker['title'],
                                   style: TextStyle(
                                     fontSize: resp.sp(18),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('Av. Central #123', style: TextStyle(fontSize: resp.sp(13), color: Colors.grey)),
+                                Text(marker['address'], style: TextStyle(fontSize: resp.sp(13), color: Colors.grey)),
                               ],
                             ),
                           ),
@@ -85,11 +90,11 @@ class BottomSheetDetail extends StatelessWidget {
                       SizedBox(height: resp.hp(2)),
                       Row(
                         children: [
-                          _buildInfoChip(context, 'Crítico', Colors.red),
+                          _buildInfoChip(context, marker['risk'], _getRiskColor(marker['risk'])),
                           SizedBox(width: resp.wp(3)),
-                          _buildInfoChip(context, 'Pendiente', Colors.orange),
+                          _buildInfoChip(context, marker['status'], _getStatusColor(marker['status'])),
                           SizedBox(width: resp.wp(3)),
-                          _buildInfoChip(context, 'A 250m', Colors.grey),
+                          _buildInfoChip(context, marker['type'], Colors.grey),
                         ],
                       ),
                       SizedBox(height: resp.hp(2)),
@@ -97,7 +102,7 @@ class BottomSheetDetail extends StatelessWidget {
                         children: [
                           Icon(Icons.access_time_rounded, size: resp.iconSize(16), color: Colors.grey),
                           SizedBox(width: resp.wp(2)),
-                          Text('Reportado hace 2 horas', style: TextStyle(color: Colors.grey)),
+                          Text('Reportado ${marker['time']}', style: TextStyle(color: Colors.grey)),
                         ],
                       ),
                       SizedBox(height: resp.hp(2)),
@@ -135,5 +140,31 @@ class BottomSheetDetail extends StatelessWidget {
       ),
       child: Text(text, style: TextStyle(fontSize: resp.sp(12), color: color, fontWeight: FontWeight.w500)),
     );
+  }
+
+  Color _getRiskColor(String risk) {
+    switch (risk) {
+      case 'Crítico':
+        return Colors.red;
+      case 'Alto':
+        return Colors.deepOrange;
+      case 'Moderado':
+        return Colors.orange;
+      default:
+        return Colors.green;
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'Pendiente':
+        return Colors.orange;
+      case 'En proceso':
+        return Colors.blue;
+      case 'Resuelto':
+        return AppColors.softGreen;
+      default:
+        return Colors.grey;
+    }
   }
 }

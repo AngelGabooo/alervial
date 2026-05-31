@@ -6,12 +6,14 @@ class HomeHeader extends StatelessWidget {
   final String userName;
   final VoidCallback onNotificationTap;
   final VoidCallback onProfileTap;
+  final VoidCallback? onSearchTap; // 👈 NUEVO: Callback para búsqueda
 
   const HomeHeader({
     super.key,
     required this.userName,
     required this.onNotificationTap,
     required this.onProfileTap,
+    this.onSearchTap, // 👈 NUEVO
   });
 
   @override
@@ -27,12 +29,12 @@ class HomeHeader extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: isDark
               ? [
-            const Color(0xFF0A2540), // Azul oscuro
-            const Color(0xFF1565C0), // Azul medio
+            const Color(0xFF0A2540),
+            const Color(0xFF1565C0),
           ]
               : [
-            AppColors.blueDark,      // Azul oscuro
-            AppColors.blueBright,   // Azul brillante
+            AppColors.blueDark,
+            AppColors.blueBright,
           ],
         ),
         borderRadius: const BorderRadius.only(
@@ -60,7 +62,7 @@ class HomeHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  // Avatar elegante con borde dorado
+                  // Avatar
                   GestureDetector(
                     onTap: onProfileTap,
                     child: Hero(
@@ -131,7 +133,27 @@ class HomeHeader extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Notificaciones con badge
+                  // 👉 NUEVO: Botón de búsqueda
+                  if (onSearchTap != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.search_rounded,
+                          size: resp.iconSize(22),
+                          color: Colors.white,
+                        ),
+                        onPressed: onSearchTap,
+                      ),
+                    ),
+                  resp.sizedBox(width: 8),
+                  // Notificaciones
                   Stack(
                     children: [
                       Container(
@@ -175,52 +197,55 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
               resp.sizedBox(height: 20),
-              // Barra de búsqueda moderna
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: resp.wp(4),
-                  vertical: resp.hp(0.8),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.search_rounded,
-                      size: resp.iconSize(20),
-                      color: AppColors.blueBright,
-                    ),
-                    resp.sizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Buscar incidencias...',
-                        style: TextStyle(
-                          fontSize: resp.sp(14),
-                          color: Colors.grey[500],
+              // Barra de búsqueda moderna (ahora clickeable)
+              GestureDetector(
+                onTap: onSearchTap,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: resp.wp(4),
+                    vertical: resp.hp(0.8),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.search_rounded,
+                        size: resp.iconSize(20),
+                        color: AppColors.blueBright,
+                      ),
+                      resp.sizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Buscar incidencias, lugares o municipios...',
+                          style: TextStyle(
+                            fontSize: resp.sp(14),
+                            color: Colors.grey[500],
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: 1,
-                      height: resp.hp(3),
-                      color: Colors.grey[300],
-                    ),
-                    resp.sizedBox(width: 8),
-                    Icon(
-                      Icons.mic_rounded,
-                      size: resp.iconSize(20),
-                      color: AppColors.blueBright,
-                    ),
-                  ],
+                      Container(
+                        width: 1,
+                        height: resp.hp(3),
+                        color: Colors.grey[300],
+                      ),
+                      resp.sizedBox(width: 8),
+                      Icon(
+                        Icons.mic_rounded,
+                        size: resp.iconSize(20),
+                        color: AppColors.blueBright,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               resp.sizedBox(height: 12),

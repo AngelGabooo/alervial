@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viatux/core/utils/responsive.dart';
 
 class AnimatedLogo extends StatelessWidget {
   final Animation<double> fadeAnimation;
@@ -12,6 +13,8 @@ class AnimatedLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resp = context.resp;
+
     return FadeTransition(
       opacity: fadeAnimation,
       child: ScaleTransition(
@@ -30,7 +33,7 @@ class AnimatedLogo extends StatelessWidget {
             children: [
               Icon(
                 Icons.warning_rounded,
-                size: 120,
+                size: resp.iconSize(100),
                 color: Colors.white,
               ),
               const SizedBox(height: 16),
@@ -38,7 +41,7 @@ class AnimatedLogo extends StatelessWidget {
                 'ALERTAVIAL\nCHIAPAS',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: resp.sp(28),
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   height: 1.2,

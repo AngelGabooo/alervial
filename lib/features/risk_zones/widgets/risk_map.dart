@@ -17,7 +17,6 @@ class RiskMap extends StatelessWidget {
       color: isDark ? Colors.grey[900] : Colors.grey[300],
       child: Stack(
         children: [
-          // Mapa de fondo
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +26,6 @@ class RiskMap extends StatelessWidget {
               ],
             ),
           ),
-          // Heatmap simulado (círculos de colores)
           if (showHeatmap) ...[
             _buildHeatSpot(context, 0.3, 0.2, Colors.red, 80),
             _buildHeatSpot(context, 0.5, 0.5, Colors.orange, 60),
@@ -35,7 +33,6 @@ class RiskMap extends StatelessWidget {
             _buildHeatSpot(context, 0.2, 0.7, Colors.orange, 50),
             _buildHeatSpot(context, 0.8, 0.7, Colors.green, 40),
           ],
-          // Marcadores
           Positioned(
             top: resp.hp(25),
             left: resp.wp(20),

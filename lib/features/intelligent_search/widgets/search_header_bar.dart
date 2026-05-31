@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:viatux/core/constants/colors.dart';
 import 'package:viatux/core/utils/responsive.dart';
 
 class SearchHeaderBar extends StatelessWidget {
-  const SearchHeaderBar({super.key});
+  final Function(String)? onSearch;
+
+  const SearchHeaderBar({super.key, this.onSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +19,15 @@ class SearchHeaderBar extends StatelessWidget {
           color: isDark ? const Color(0xFF1E293B) : Colors.white,
           borderRadius: resp.radius(12),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: TextField(
+          onChanged: onSearch,
           decoration: InputDecoration(
             hintText: 'Buscar incidencias, municipios o calles...',
             hintStyle: TextStyle(fontSize: resp.sp(13), color: Colors.grey),
@@ -27,8 +35,14 @@ class SearchHeaderBar extends StatelessWidget {
             suffixIcon: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(icon: const Icon(Icons.mic_none_rounded, color: Colors.grey), onPressed: () {}),
-                IconButton(icon: const Icon(Icons.gps_fixed_rounded, color: Colors.grey), onPressed: () {}),
+                IconButton(
+                  icon: const Icon(Icons.mic_none_rounded, color: Colors.grey),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.gps_fixed_rounded, color: Colors.grey),
+                  onPressed: () {},
+                ),
               ],
             ),
             border: InputBorder.none,

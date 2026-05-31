@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/widgets/gradient_background.dart';
-import '../../../routes/app_routes.dart';
+import 'package:viatux/core/services/connectivity_service.dart';
+import 'package:viatux/core/widgets/gradient_background.dart';
+import 'package:viatux/routes/app_routes.dart';
 import '../widgets/animated_logo.dart';
 import '../widgets/loading_indicator.dart';
 
@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _initAnimations();
-    _navigateToNextScreen();
+    _checkConnectivityAndNavigate();
   }
 
   void _initAnimations() {
@@ -41,11 +41,18 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     _controller.forward();
   }
 
-  Future<void> _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
-      // ✅ CORREGIDO: Navegar a ONBOARDING primero
+  Future<void> _checkConnectivityAndNavigate() async {
+    // Esperar animación inicial
+    await Future.delayed(const Duration(seconds: 2));
+
+    final hasConnection = await ConnectivityService.hasConnection();
+
+    if (!mounted) return;
+
+    if (hasConnection) {
       Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.noConnection);
     }
   }
 
@@ -61,28 +68,34 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       hasPattern: true,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            AnimatedLogo(
-              fadeAnimation: _fadeAnimation,
-              scaleAnimation: _scaleAnimation,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedLogo(
+                  fadeAnimation: _fadeAnimation,
+                  scaleAnimation: _scaleAnimation,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Text(
+                    'Reporte ciudadano de incidencias viales',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 60),
+                const LoadingIndicator(),
+                const SizedBox(height: 30),
+              ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Reporte ciudadano de incidencias viales',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.9),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Spacer(),
-            const LoadingIndicator(),
-            const SizedBox(height: 40),
-          ],
+          ),
         ),
       ),
     );

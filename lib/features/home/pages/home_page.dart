@@ -8,6 +8,7 @@ import '../widgets/stats_card.dart';
 import '../widgets/nearby_incidents.dart';
 import '../widgets/mini_map.dart';
 import '../widgets/recent_activity.dart';
+import '../widgets/quick_actions_grid.dart';
 import 'package:viatux/features/interactive_map/pages/interactive_map_page.dart';
 import 'package:viatux/features/nearby_reports/pages/nearby_reports_page.dart';
 import 'package:viatux/features/risk_zones/pages/risk_zones_page.dart';
@@ -18,12 +19,11 @@ import 'package:viatux/features/history/pages/history_page.dart';
 import 'package:viatux/features/recent_activity_feed/pages/recent_activity_feed_page.dart';
 import 'package:viatux/features/notifications/pages/notifications_page.dart';
 import 'package:viatux/features/smart_alerts/pages/smart_alerts_page.dart';
-
-// 👉 IMPORTS CONECTADOS DIRECTAMENTE AL HOME
 import 'package:viatux/features/personal_stats/pages/personal_stats_page.dart';
 import 'package:viatux/features/gamification/pages/gamification_page.dart';
 import 'package:viatux/features/favorites/pages/favorites_page.dart';
 import 'package:viatux/features/intelligent_search/pages/intelligent_search_page.dart';
+import 'package:viatux/features/profile/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,135 +48,106 @@ class _HomePageState extends State<HomePage> {
     });
 
     switch (index) {
-      case 0: // Inicio
+      case 0:
         break;
-      case 1: // Mapa 👉 AHORA REDIRIGE A TU BÚSQUEDA INTELIGENTE CON MAPA EN VIVO
-        Navigator.pushNamed(
-          context,
-          AppRoutes.intelligentSearch,
-        ).then((_) {
-          setState(() {
-            _currentIndex = 0;
-          });
-        });
-        break;
-      case 2: // Reportar
+      case 1:
+      // ✅ CORREGIDO: Ahora navega al mapa interactivo original
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const CreateReportPage(),
-          ),
-        ).then((_) {
-          setState(() {
-            _currentIndex = 0;
-          });
-        });
+          MaterialPageRoute(builder: (context) => const InteractiveMapPage()),
+        ).then((_) => setState(() => _currentIndex = 0));
         break;
-      case 3: // Alertas 👉 AHORA REDIRIGE A TU PANTALLA PREMIUM DE FAVORITOS
-        Navigator.pushNamed(
-          context,
-          AppRoutes.favorites,
-        ).then((_) {
-          setState(() {
-            _currentIndex = 0;
-          });
-        });
-        break;
-      case 4: // Perfil 👉 CONECTADO A TUS ESTADÍSTICAS PERSONALES PREMIUM
+      case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const PersonalStatsPage(),
-          ),
-        ).then((_) {
-          setState(() {
-            _currentIndex = 0;
-          });
+          MaterialPageRoute(builder: (context) => const CreateReportPage()),
+        ).then((_) => setState(() => _currentIndex = 0));
+        break;
+      case 3:
+        Navigator.pushNamed(context, AppRoutes.favorites).then((_) {
+          setState(() => _currentIndex = 0);
         });
+        break;
+      case 4:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfilePage()),
+        ).then((_) => setState(() => _currentIndex = 0));
         break;
     }
   }
 
-  // 👉 ACCIÓN REDIRIGIDA A ESTADÍSTICAS AL TOCAR LA TARJETA PRINCIPAL
+  void _navigateToIntelligentSearch() {
+    Navigator.pushNamed(context, AppRoutes.intelligentSearch);
+  }
+
   void _navigateToPersonalStats() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const PersonalStatsPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const PersonalStatsPage()),
     );
   }
 
-  // 👉 FUNCIÓN PARA IR A LA PANTALLA DE GAMIFICACIÓN (LOGROS/DESAFÍOS)
   void _navigateToGamification() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const GamificationPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const GamificationPage()),
     );
   }
 
   void _navigateToRiskZones() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const RiskZonesPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const RiskZonesPage()),
     );
   }
 
   void _navigateToCommentsEvidences() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const CommentsEvidencesPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const CommentsEvidencesPage()),
     );
   }
 
   void _navigateToMyReports() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const MyReportsPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const MyReportsPage()),
     );
   }
 
   void _navigateToHistory() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const HistoryPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const HistoryPage()),
     );
   }
 
   void _navigateToRecentActivity() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const RecentActivityFeedPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const RecentActivityFeedPage()),
     );
   }
 
   void _navigateToNotifications() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const NotificationsPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const NotificationsPage()),
     );
   }
 
   void _navigateToSmartAlerts() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const SmartAlertsPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const SmartAlertsPage()),
+    );
+  }
+
+  void _navigateToProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfilePage()),
     );
   }
 
@@ -196,20 +167,24 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              // Header - Al tocar tu foto de avatar abre la Gamificación/Logros
               HomeHeader(
                 userName: 'Ángel',
                 onNotificationTap: _navigateToNotifications,
-                onProfileTap: _navigateToGamification,
+                onProfileTap: _navigateToProfile,
+                onSearchTap: _navigateToIntelligentSearch,
               ),
-
-              // Stats Card - Al tocarla abre tus Estadísticas Personales Premium
               GestureDetector(
                 onTap: _navigateToPersonalStats,
                 child: const StatsCard(),
               ),
-
-              // Nearby Incidents
+              QuickActionsGrid(
+                onHistoryTap: _navigateToHistory,
+                onRecentActivityTap: _navigateToRecentActivity,
+                onRiskZonesTap: _navigateToRiskZones,
+                onMyReportsTap: _navigateToMyReports,
+                onGamificationTap: _navigateToGamification,
+                onPersonalStatsTap: _navigateToPersonalStats,
+              ),
               NearbyIncidents(
                 onViewAll: () {
                   Navigator.push(
@@ -221,8 +196,6 @@ class _HomePageState extends State<HomePage> {
                   _navigateToCommentsEvidences();
                 },
               ),
-
-              // Mini Map
               MiniMap(
                 onViewMap: () {
                   Navigator.push(
@@ -231,8 +204,6 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-
-              // Recent Activity
               RecentActivity(
                 onViewAll: _navigateToHistory,
                 onActivityTap: _navigateToRecentActivity,
